@@ -1,0 +1,104 @@
+body {
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px; /* Space from the top for the title */
+}
+.navbar {
+    background-color: #5A3E36; /* Solid color when scrolled */  
+    position: sticky;
+    top: 0;
+    height: 100px; /* Increased height */
+    border-radius: 0 0 10px 10px; /* Rounded edges */
+    z-index: 1000; /* Ensure it's above other content */
+    transition: background-color 0.3s, padding 0.3s; /* Smooth transition */
+}
+
+.navbar.scrolled {
+    background-color: rgba(90, 62, 54, 0.4); /* Slightly transparent at the start */
+    padding: 10px 0; /* Adjusted padding */
+}
+
+.navbar-brand {
+    color: #4CAF50; /* Forest Green */
+}
+
+.navbar-brand:hover {
+    color: #fff;
+}
+.navbar-collapse {
+    background-color: #5A3E36; /* Earthy Brown for collapsed navbar */
+}
+
+
+.carousel-item img {
+    height: 500px;
+    object-fit: cover;
+}
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: 300px; /* Adjusted height for small screens */
+    }
+}
+
+.carousel {
+    margin-top: 20px; /* Space between navbar and slideshow */
+    border-radius: 10px; /* Curved edges for the slideshow */
+    overflow: hidden; /* Ensures that the images do not overflow the rounded corners */
+}
+
+.content-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 98vw;
+    padding: 50px 0;
+} 
+.welcome, .services, .contact {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+footer {
+    background-color: #5A3E36;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.contact a {
+    color: #5A3E36; /* Earthy Brown */
+    text-decoration: none;
+}
+.contact a:hover {
+    text-decoration: underline;
+}
+/* Product Card Styles */
+.product-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease; /* Animation for hover effect */
+}
+.product-card:hover {
+    transform: scale(1.05); /* Scale up on hover */
+}
+.product-image {
+    width: 100%;
+    height: 500px; /* Fixed height for images */
+    object-fit: cover; /* Ensures images cover the area */
+}
+/* Space between navbar and slideshow */
+.carousel {
+    margin-top: 20px; /* Space between navbar and slideshow */
+}
+/* Copy button styles */
+.copy-btn {
+    border: none;
+    background-color: transparent;
+    color: #5A3E36;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.copy-btn:focus {
+    outline: none;
+}
