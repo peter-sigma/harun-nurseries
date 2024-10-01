@@ -144,13 +144,17 @@
         <div class="sidebar">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a class="nav-link active" href="{% url 'admin_panel:admin_dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-image"></i> Manage Images</a>
+                    <a class="nav-link" href="{% url 'admin_panel:manage_categories' %}"><i class="fas fa-image"></i> Manage Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_panel:manage_images' %}"><i class="fas fa-image"></i> Manage Images</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-video"></i> Manage Videos</a>
+                    {% comment %} {% url 'admin_panel:manage_videos' %} {% endcomment %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-cogs"></i> Settings</a>
