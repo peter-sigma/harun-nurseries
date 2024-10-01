@@ -56,6 +56,22 @@
 
     <!-- Footer -->
     <footer class="text-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'core:index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:image_list' %}">Images</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:video_list' %}">Videos</a>
+        </li>
         <p>&copy; 2024 Hurun Nurseries. All rights reserved.</p>
     </footer>
 
