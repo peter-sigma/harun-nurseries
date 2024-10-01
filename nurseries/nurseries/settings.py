@@ -14,12 +14,12 @@ from pathlib import Path
 import environ
 
 
-env = environ.Env()
-environ.Env.read_env()
+# env = environ.Env()
+# environ.Env.read_env()
 
-DEBUG = env.bool("DEBUG", default=False)
-SECRET_KEY = env.str("SECRET_KEY")
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+# DEBUG = env.bool("DEBUG", default=False)
+# SECRET_KEY = env.str("SECRET_KEY")
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,24 +85,24 @@ WSGI_APPLICATION = 'nurseries.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Change to PostgreSQL
-        'NAME': env('DB_NAME'),                     # Database name
-        'USER': env('DB_USER'),                     # Database user
-        'PASSWORD': env('DB_PASSWORD'),             # Database password
-        'HOST': env('DB_HOST', default='localhost'), # Database host
-        'PORT': env('DB_PORT', default='5432'),     # Database port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',  # Change to PostgreSQL
+#         'NAME': env('DB_NAME'),                     # Database name
+#         'USER': env('DB_USER'),                     # Database user
+#         'PASSWORD': env('DB_PASSWORD'),             # Database password
+#         'HOST': env('DB_HOST', default='localhost'), # Database host
+#         'PORT': env('DB_PORT', default='5432'),     # Database port
+#     }
+# }
 
 # if env('ENVIRONMENT') == 'production':
 #     DATABASES = {

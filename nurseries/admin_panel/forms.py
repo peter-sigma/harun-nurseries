@@ -1,14 +1,10 @@
-from django.contrib import admin
-from .models import Image, Video, Category
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
-class ImageAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    filter_horizontal = ('categories',)
-
-class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    filter_horizontal = ('categories',)
-
-admin.site.register(Image, ImageAdmin)
-admin.site.register(Video, VideoAdmin)
-admin.site.register(Category)
+class AdminLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control', 'placeholder': 'Username'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control', 'placeholder': 'Password'
+    }))

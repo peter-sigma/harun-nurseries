@@ -1,0 +1,84 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mb-4">Admin Dashboard</h1>
+
+        <!-- Statistics Section -->
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Images</h5>
+                        <p class="card-text">{{ total_images }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Videos</h5>
+                        <p class="card-text">{{ total_videos }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Images Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Latest Uploaded Images</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for image in recent_images %}
+                        <tr>
+                            <td>{{ image.title }}</td>
+                            <td>{% for category in image.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No recent images available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Latest Videos Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Latest Uploaded Videos</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for video in recent_videos %}
+                        <tr>
+                            <td>{{ video.title }}</td>
+                            <td>{% for category in video.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No recent videos available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

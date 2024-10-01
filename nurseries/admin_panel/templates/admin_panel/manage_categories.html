@@ -1,0 +1,48 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Manage Categories - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Manage Categories</h1>
+    
+    <!-- Form to Add New Category -->
+    <h2>Add New Category</h2>
+    <form action="{% url 'admin_panel:add_category' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="category_name" class="form-label">Category Name</label>
+            <input type="text" class="form-control" name="category_name" id="category_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" id="description">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+
+    <hr>
+
+    <!-- Existing Categories List -->
+    <h2>Existing Categories</h2>
+    <ul class="list-group">
+        {% for category in categories %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ category.name }}
+            <div>
+                <form action="{% url 'admin_panel:update_category' category.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="text" name="category_name" value="{{ category.name }}" required>
+                    <input type="text" name="description" value="{{ category.description }}" required placeholder="Description">
+                    <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                </form>
+                <form action="{% url 'admin_panel:delete_category' category.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
