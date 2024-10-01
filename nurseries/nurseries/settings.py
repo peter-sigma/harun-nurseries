@@ -19,7 +19,7 @@ import environ
 
 # DEBUG = env.bool("DEBUG", default=False)
 # SECRET_KEY = env.str("SECRET_KEY")
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','sigmapee.pythonanywhere.com']
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
