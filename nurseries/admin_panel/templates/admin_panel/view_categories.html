@@ -1,0 +1,39 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}View Category - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Categories Gallery</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Number of Images</th>
+                    <th scope="col">Number of Videos</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.description }}</td>
+                    <td>{{ category.images.count }}</td>
+                    <td>{{ category.videos.count }}</td>
+                    <td>
+                        <a href="{% url 'admin_panel:update_category' category.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>
+                        <a href="{% url 'admin_panel:delete_category' category.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

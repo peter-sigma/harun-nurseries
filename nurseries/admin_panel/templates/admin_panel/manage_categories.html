@@ -4,45 +4,42 @@
 
 {% block content %}
 <div class="container">
-    <h1>Manage Categories</h1>
-    
-    <!-- Form to Add New Category -->
-    <h2>Add New Category</h2>
-    <form action="{% url 'admin_panel:add_category' %}" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="category_name" class="form-label">Category Name</label>
-            <input type="text" class="form-control" name="category_name" id="category_name" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" name="description" id="description">
-        </div>
-        <button type="submit" class="btn btn-primary">Add Category</button>
-    </form>
+    <h1 class="text-center my-5">Manage Categories</h1>
 
-    <hr>
-
-    <!-- Existing Categories List -->
-    <h2>Existing Categories</h2>
-    <ul class="list-group">
-        {% for category in categories %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ category.name }}
-            <div>
-                <form action="{% url 'admin_panel:update_category' category.id %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <input type="text" name="category_name" value="{{ category.name }}" required>
-                    <input type="text" name="description" value="{{ category.description }}" required placeholder="Description">
-                    <button type="submit" class="btn btn-warning btn-sm">Update</button>
-                </form>
-                <form action="{% url 'admin_panel:delete_category' category.id %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
+    <!-- Row of cards with links -->
+    <div class="row">
+        <!-- Add Category Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-category-card">
+                <div class="card-body">
+                    <i class="fas fa-plus fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Add New Category</h5>
+                    <a href="{% url 'admin_panel:add_category' %}" class="btn btn-primary mt-2">Add Category</a>
+                </div>
             </div>
-        </li>
-        {% endfor %}
-    </ul>
+        </div>
+
+        <!-- View Categories Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-category-card">
+                <div class="card-body">
+                    <i class="fas fa-eye fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">View Categories</h5>
+                    <a href="{% url 'admin_panel:view_categories' %}" class="btn btn-info mt-2">View Categories</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Categories Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-category-card">
+                <div class="card-body">
+                    <i class="fas fa-tags fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Total Categories</h5>
+                    <p class="card-text">You have {{ categories.count }} categories</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

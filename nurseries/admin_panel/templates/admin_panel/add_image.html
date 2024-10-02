@@ -1,0 +1,45 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Add New Image - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Add New Image</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Title -->
+                <div class="form-group mb-3">
+                    <label for="title" class="form-label">Image Title</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter image title" required>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="form-group mb-3">
+                    <label for="image_file" class="form-label">Upload Image</label>
+                    <input type="file" name="image_file" id="image_file" class="form-control" accept="image/*" required>
+                </div>
+
+                <!-- Categories (Single dropdown select) -->
+                <div class="form-group mb-3">
+                    <label for="categories" class="form-label">Select Category</label>
+                    <select name="categories" id="categories" class="form-control" required>
+                        <option value="">-- Select a Category --</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Upload Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

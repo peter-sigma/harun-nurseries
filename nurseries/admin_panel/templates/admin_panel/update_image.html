@@ -1,0 +1,48 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Update Image - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Update Image</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Title -->
+                <div class="form-group mb-3">
+                    <label for="title" class="form-label">Image Title</label>
+                    <input type="text" name="title" id="title" class="form-control" value="{{ image.title }}" placeholder="Enter image title" required>
+                </div>
+
+                <!-- Image Upload (optional) -->
+                <div class="form-group mb-3">
+                    <label for="image_file" class="form-label">Replace Image (Optional)</label>
+                    <input type="file" name="image_file" id="image_file" class="form-control" accept="image/*">
+                    <small class="form-text text-muted">Current image will be used if not replaced.</small>
+                </div>
+
+                <!-- Categories (Single dropdown select) -->
+                <div class="form-group mb-3">
+                    <label for="categories" class="form-label">Select Category</label>
+                    <select name="categories" id="categories" class="form-control" required>
+                        <option value="">-- Select a Category --</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category in image.categories.all %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

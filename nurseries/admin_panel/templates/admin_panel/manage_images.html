@@ -4,70 +4,41 @@
 
 {% block content %}
 <div class="container">
-    <h1>Manage Images</h1>
-    
-    <!-- Form to Upload New Image -->
-    <h2>Add New Image</h2>
-    <form action="{% url 'admin_panel:add_image' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="title" id="title" required>
-        </div>
-        <div class="mb-3">
-            <label for="image_file" class="form-label">Image File</label>
-            <input type="file" class="form-control" name="image_file" id="image_file" required>
-        </div>
-        <div class="mb-3">
-            <label for="categories" class="form-label">Categories</label>
-            <select multiple class="form-control" name="categories" id="categories">
-                {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload Image</button>
-    </form>
+    <h1 class="text-center my-5">Manage Images</h1>
 
-    <hr>
+    <!-- Row of cards with links -->
+    <div class="row">
+        <!-- Add Image Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-image-card">
+                <div class="card-body">
+                    <i class="fas fa-plus fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Add New Image</h5>
+                    <a href="{% url 'admin_panel:add_image' %}" class="btn btn-primary mt-2">Add Image</a>
+                </div>
+            </div>
+        </div>
 
-    <!-- Existing Images List -->
-    <h2>Existing Images</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Image</th>
-                <th>Categories</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for image in images %}
-            <tr>
-                <td>{{ image.title }}</td>
-                <td>
-                    <img src="{{ image.image_file.url }}" alt="Image" style="height: 100px; width: auto;">
-                </td>
-                <td>
-                    {% for category in image.categories.all %}
-                        {{ category.name }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
-                <td>
-                    <form action="{% url 'admin_panel:update_image' image.id %}" method="POST" enctype="multipart/form-data" style="display:inline;">
-                        {% csrf_token %}
-                        <input type="file" name="image_file" required>
-                        <button type="submit" class="btn btn-warning">Update</button>
-                    </form>
-                    <form action="{% url 'admin_panel:delete_image' image.id %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- View Images Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-image-card">
+                <div class="card-body">
+                    <i class="fas fa-eye fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">View Images</h5>
+                    <a href="{% url 'admin_panel:view_images' %}" class="btn btn-info mt-2">View Images</a>
+                </div>
+            </div>
+        </div>
+        <!-- Total Images Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-image-card">
+                <div class="card-body">
+                    <i class="fas fa-image fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Total Images</h5>
+                    <p class="mt-2">You have <strong>{{ total_images }}</strong> images.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}View Images - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Images Gallery</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Categories</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for image in images %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><img src="{{ image.image_file.url }}" alt="{{ image.title }}" class="img-thumbnail" style="max-width: 100px;"></td>
+                    <td>{{ image.title }}</td>
+                    <td>
+                        {% for category in image.categories.all %}
+                            <span class="badge bg-success">{{ category.name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_panel:update_image' image.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>
+                        <a href="{% url 'admin_panel:delete_image' image.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
