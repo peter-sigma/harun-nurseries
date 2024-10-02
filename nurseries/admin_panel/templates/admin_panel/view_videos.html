@@ -1,0 +1,38 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}View Videos - Hurun Nurseries{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Videos Gallery</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Video</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Categories</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><video width="150" controls><source src="{{ video.video_file.url }}" type="video/mp4"></video></td>
+                    <td>{{ video.title }}</td>
+                    <td>
+                        {% for category in video.categories.all %}
+                            <span class="badge bg-success">{{ category.name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_panel:update_video' video.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>
+                        <a href="{% url 'admin_panel:delete_video' video.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

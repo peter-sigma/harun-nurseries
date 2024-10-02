@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
@@ -34,6 +33,7 @@ def dashboard(request):
     # Fetch data for images, videos, and categories
     total_images = Image.objects.count()
     total_videos = Video.objects.count()
+    total_categories = Category.objects.count()
     categories = Category.objects.all()
 
     # You can also include recent activities, such as recently uploaded images/videos
@@ -43,6 +43,7 @@ def dashboard(request):
     context = {
         'total_images': total_images,
         'total_videos': total_videos,
+        'total_categories': total_categories,
         'categories': categories,
         'recent_images': recent_images,
         'recent_videos': recent_videos,
@@ -174,3 +175,60 @@ def view_images(request):
 def view_categories(request):
     categories=Category.objects.all()
     return render(request, 'admin_panel/view_categories.html', {'categories': categories})
+
+
+
+@login_required
+def manage_videos(request):
+    total_videos = Video.objects.count()
+    return render(request, 'admin_panel/manage_videos.html', {'total_videos': total_videos})
+
+@login_required
+def add_video(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        video_file = request.FILES.get('video_file')
+        category_ids = request.POST.getlist('categories')
+        categories = Category.objects.filter(id__in=category_ids)
+
+        video = Video.objects.create(title=title, video_file=video_file)
+        video.categories.set(categories)
+        video.save()
+
+        return redirect('admin_panel:view_videos')
+
+    categories = Category.objects.all()
+    return render(request, 'admin_panel/add_video.html', {'categories': categories})
+
+# Update Video
+@login_required
+def update_video(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+
+    if request.method == 'POST':
+        video.title = request.POST.get('title', video.title)
+        if 'video_file' in request.FILES:
+            video.video_file = request.FILES['video_file']
+        category_ids = request.POST.getlist('categories')
+        categories = Category.objects.filter(id__in=category_ids)
+        video.categories.set(categories)
+        video.save()
+
+        return redirect('admin_panel:view_videos')
+
+    categories = Category.objects.all()
+    return render(request, 'admin_panel/update_video.html', {'video': video, 'categories': categories})
+
+# Delete Video
+@login_required
+def delete_video(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    video.delete()
+    return redirect('admin_panel:view_videos')
+
+
+# View Videos
+@login_required
+def view_videos(request):
+    videos = Video.objects.all()
+    return render(request, 'admin_panel/view_videos.html', {'videos': videos})

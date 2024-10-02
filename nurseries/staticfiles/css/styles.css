@@ -108,3 +108,8 @@ footer {
 .copy-btn:focus {
     outline: none;
 }
+
+.custom-green {
+    background-color: #28a745; /* Custom green color */
+    color: white;
+}

@@ -1,0 +1,45 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Manage Videos - Hurun Nurseries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Manage Videos</h1>
+
+    <!-- Row of cards with links -->
+    <div class="row">
+        <!-- Add Video Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-video-card">
+                <div class="card-body">
+                    <i class="fas fa-plus fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Add New Video</h5>
+                    <a href="{% url 'admin_panel:add_video' %}" class="btn btn-primary mt-2">Add Video</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Videos Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-video-card">
+                <div class="card-body">
+                    <i class="fas fa-eye fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">View Videos</h5>
+                    <a href="{% url 'admin_panel:view_videos' %}" class="btn btn-info mt-2">View Videos</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Count Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card text-center shadow-sm manage-video-card">
+                <div class="card-body">
+                    <i class="fas fa-film fa-3x card-icon"></i>
+                    <h5 class="card-title mt-3">Total Videos</h5>
+                    <p class="card-text mt-2">You have {{ total_videos }} videos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

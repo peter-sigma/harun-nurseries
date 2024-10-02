@@ -1,0 +1,27 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Update Video - Hurun Nurseries{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Update Video</h1>
+    <form action="{% url 'admin_panel:update_video' video.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ video.title }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="video_file" class="form-label">Upload Video</label>
+            <input type="file" class="form-control" id="video_file" name="video_file">
+        </div>
+        <div class="mb-3">
+            <label for="categories" class="form-label">Categories</label>
+            <select name="categories" id="categories" class="form-control" required>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if category in video.categories.all %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-warning">Update Video</button>
+    </form>
+</div>
+{% endblock %}

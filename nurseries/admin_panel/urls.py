@@ -19,4 +19,11 @@ urlpatterns = [
      path('view-categories/', view_categories, name='view_categories'),
     path('update-category/<int:category_id>/', update_category, name='update_category'),
     path('delete-category/<int:category_id>/', delete_category, name='delete_category'),
+      
+    # Manage videos
+    path('manage-videos/', manage_videos, name='manage_videos'),
+    path('add-video/', add_video, name='add_video'),
+    path('update-video/<int:video_id>/', update_video, name='update_video'),
+    path('view-videos/', view_videos, name='view_videos'),
+    path('delete-video/<int:video_id>/', delete_video, name='delete_video'),
 ]
