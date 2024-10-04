@@ -15,19 +15,23 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of Images</th>
                     <th scope="col">Number of Videos</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action 1</th>
+                    <th scope="col">Action 2</th>
                 </tr>
             </thead>
             <tbody>
                 {% for category in categories %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ category.name }}</td>
+                    <td >{{ category.name }}</td>
                     <td>{{ category.description }}</td>
                     <td>{{ category.images.count }}</td>
                     <td>{{ category.videos.count }}</td>
                     <td>
                         <a href="{% url 'admin_panel:update_category' category.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>
+                        
+                    </td>
+                    <td>
                         <a href="{% url 'admin_panel:delete_category' category.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>

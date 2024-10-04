@@ -10,23 +10,26 @@
                     <th scope="col">#</th>
                     <th scope="col">Video</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Categories</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Action 1</th>
+                    <th scope="col">Action 2</th>
                 </tr>
             </thead>
             <tbody>
                 {% for video in videos %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td><video width="150" controls><source src="{{ video.video_file.url }}" type="video/mp4"></video></td>
+                    <td><video width="200" controls><source src="{{ video.video_file.url }}" type="video/mp4"></video></td>
                     <td>{{ video.title }}</td>
                     <td>
                         {% for category in video.categories.all %}
-                            <span class="badge bg-success">{{ category.name }}</span>
+                            <span class="badge bg-success" >{{ category.name }}</span>
                         {% endfor %}
                     </td>
                     <td>
                         <a href="{% url 'admin_panel:update_video' video.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>
+                    </td>
+                    <td>
                         <a href="{% url 'admin_panel:delete_video' video.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>

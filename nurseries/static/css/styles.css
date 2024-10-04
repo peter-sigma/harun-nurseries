@@ -2,7 +2,9 @@ body {
     background-color: #f4f4f4;
     font-family: 'Roboto', sans-serif;
     margin-top: 20px; /* Space from the top for the title */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
 .navbar {
     background-color: #5A3E36; /* Solid color when scrolled */  
     position: sticky;
@@ -25,18 +27,22 @@ body {
 .navbar-brand:hover {
     color: #fff;
 }
+
 .navbar-collapse {
     background-color: #5A3E36; /* Earthy Brown for collapsed navbar */
 }
-
 
 .carousel-item img {
     height: 500px;
     object-fit: cover;
 }
+
 @media (max-width: 576px) {
     .carousel-item img {
         height: 300px; /* Adjusted height for small screens */
+    }
+    .product-image {
+        height: 200px; /* Adjusted height for smaller screens */
     }
 }
 
@@ -50,34 +56,86 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 50vh;
-    /* height: 1000px; */
 }
+
 .content-section {
     display: flex;
     flex-direction: column;
-    min-width: 98vw;
     padding: 50px 0;
-} 
+    min-width: 98vw;
+}
+
 .welcome, .services, .contact {
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 30px;
+    width: 100%;
 }
-footer {
+
+/* footer {
     background-color: #5A3E36;
     color: white;
     padding: 20px;
     text-align: center;
+    width: 100%;
+} */
+footer {
+    background-color: #2d2d2d;
+    padding: 20px 0;
+    color: #fff;
+    position: relative;
 }
+
+footer p {
+    margin: 10px 0;
+}
+
+footer .nav-link {
+    color: #fff;
+    font-size: 16px;
+    margin: 5px 10px;
+    padding: 5px;
+    display: inline-block;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+footer .nav-link:hover {
+    color: #00cc44; /* Attractive green */
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+footer .nav-item {
+    display: inline-block;
+}
+
+footer .nav-item:not(:last-child)::after {
+    content: "|";
+    margin-left: 10px;
+    color: #fff;
+}
+
+footer p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+footer .nav-link.active {
+    font-weight: bold;
+    color: #00cc44; /* Active link color */
+}
+
 .contact a {
     color: #5A3E36; /* Earthy Brown */
     text-decoration: none;
 }
+
 .contact a:hover {
     text-decoration: underline;
 }
+
 /* Product Card Styles */
 .product-card {
     border: none;
@@ -85,18 +143,17 @@ footer {
     overflow: hidden;
     transition: transform 0.3s ease; /* Animation for hover effect */
 }
+
 .product-card:hover {
     transform: scale(1.05); /* Scale up on hover */
 }
+
 .product-image {
     width: 100%;
     height: 400px; /* Fixed height for images */
     object-fit: cover; /* Ensures images cover the area */
 }
-/* Space between navbar and slideshow */
-.carousel {
-    margin-top: 20px; /* Space between navbar and slideshow */
-}
+
 /* Copy button styles */
 .copy-btn {
     border: none;
@@ -105,6 +162,7 @@ footer {
     cursor: pointer;
     font-size: 1.2rem;
 }
+
 .copy-btn:focus {
     outline: none;
 }
