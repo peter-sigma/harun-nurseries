@@ -27,14 +27,18 @@
                 <!-- Categories (Single dropdown select) -->
                 <div class="form-group mb-3">
                     <label for="categories" class="form-label">Select Category</label>
-                    <select name="categories" id="categories" class="form-control" required>
-                        <option value="">-- Select a Category --</option>
+                    <select name="category" id="categories" class="form-control" required>
                         {% for category in categories %}
                             <option value="{{ category.id }}" {% if category in image.categories.all %}selected{% endif %}>
                                 {{ category.name }}
                             </option>
                         {% endfor %}
                     </select>
+                </div>
+                <!-- Description -->
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label">Image Description</label>
+                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter image description" >
                 </div>
 
                 <!-- Submit Button -->

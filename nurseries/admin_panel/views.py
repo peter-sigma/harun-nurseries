@@ -6,6 +6,7 @@ from .forms import AdminLoginForm
 from django.contrib.auth.decorators import login_required
 from .models import Image, Video, Category
 
+
 def admin_login_view(request):
     if request.user.is_authenticated:  # Redirect if already logged in
         return redirect(reverse('admin_panel:admin_dashboard'))
@@ -28,15 +29,14 @@ def admin_login_view(request):
 
     return render(request, 'admin_panel/login.html', {'form': form})
 
+
 @login_required
 def dashboard(request):
-    # Fetch data for images, videos, and categories
     total_images = Image.objects.count()
     total_videos = Video.objects.count()
     total_categories = Category.objects.count()
     categories = Category.objects.all()
 
-    # You can also include recent activities, such as recently uploaded images/videos
     recent_images = Image.objects.order_by('-id')[:5]  # Show 5 most recent images
     recent_videos = Video.objects.order_by('-id')[:5]  # Show 5 most recent videos
 
@@ -52,10 +52,10 @@ def dashboard(request):
     return render(request, 'admin_panel/dashboard.html', context)
 
 
-@login_required  # Ensure that only logged-in users can access this view
+@login_required
 def logout_view(request):
     logout(request)
-    return redirect('admin_panel:admin_login') 
+    return redirect('admin_panel:admin_login')
 
 
 @login_required
@@ -63,18 +63,76 @@ def manage_images(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         image_file = request.FILES['image_file']
-        category_ids = request.POST.getlist('categories')
-        categories = Category.objects.filter(id__in=category_ids)
+        category_id = request.POST.get('category')  # Changed to single category
+        category = get_object_or_404(Category, id=category_id)
 
-        new_image = Image.objects.create(title=title, image_file=image_file)
-        new_image.categories.set(categories)
+        new_image = Image.objects.create(title=title, image_file=image_file, category=category)
         new_image.save()
+
         return redirect('admin_panel:manage_images')
 
     images = Image.objects.all()
     total_images = Image.objects.count()
     categories = Category.objects.all()  # Fetch categories to display in the form
     return render(request, 'admin_panel/manage_images.html', {'images': images, 'categories': categories, 'total_images': total_images})
+
+
+@login_required
+def add_image(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        image_file = request.FILES['image_file']
+        category_id = request.POST.get('category')
+        category = get_object_or_404(Category, id=category_id)
+
+        # Check if an image with the same title exists
+        if Image.objects.filter(title=title).exists():
+            categories = Category.objects.all()
+            error_message = "An image with this title already exists. Please choose a different title."
+            return render(request, 'admin_panel/add_image.html', {
+                'categories': categories,
+                'error_message': error_message
+            })
+
+        # If no existing title, create the new image
+        new_image = Image.objects.create(title=title, image_file=image_file, category=category)
+        new_image.save()
+
+        return redirect('admin_panel:manage_images')
+
+    categories = Category.objects.all()
+    return render(request, 'admin_panel/add_image.html', {'categories': categories})
+
+
+
+@login_required
+def update_image(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        category_id = request.POST.get('category')  # Changed to single category
+        print(category_id)
+        category = get_object_or_404(Category, id=category_id)
+
+        image.title = title
+        if 'image_file' in request.FILES:
+            image.image_file = request.FILES['image_file']
+        image.category = category  # Set the single category for the image
+        image.save()
+
+        return redirect('admin_panel:view_images')
+
+    categories = Category.objects.all()
+    return render(request, 'admin_panel/update_image.html', {'image': image, 'categories': categories})
+
+
+@login_required
+def delete_image(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
+    image.delete()
+    return redirect('admin_panel:view_images')
+
 
 @login_required
 def manage_categories(request):
@@ -89,93 +147,58 @@ def manage_categories(request):
 
 
 @login_required
-def add_image(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        image_file = request.FILES['image_file']
-        category_id = request.POST.get('categories')  # Now handling a single category
-        category = Category.objects.get(id=category_id)
-
-        # Create new image object and associate the single category
-        new_image = Image.objects.create(title=title, image_file=image_file)
-        new_image.categories.set([category])  # Set the single category for the image
-        new_image.save()
-
-        return redirect('admin_panel:manage_images')
-
-    # Retrieve all categories for the form
-    categories = Category.objects.all()
-
-    # Pass categories to the template
-    return render(request, 'admin_panel/add_image.html', {'categories': categories})
-
-
-
-@login_required
 def add_category(request):
     if request.method == 'POST':
         category_name = request.POST.get('category_name')
         description = request.POST.get('description')
+
+        # Check if a category with the same name already exists
+        if Category.objects.filter(name=category_name).exists():
+            error_message = "A category with this name already exists. Please choose a different name."
+            return render(request, 'admin_panel/add_category.html', {
+                'error_message': error_message,
+                'category_name': category_name,
+                'description': description
+            })
+
+        # Create the category if no duplicate exists
         Category.objects.create(name=category_name, description=description)
-        return redirect('admin_panel:view_category')
-    return render(request,'admin_panel/add_category.html')
+        return redirect('admin_panel:view_categories')
+
+    return render(request, 'admin_panel/add_category.html')
 
 
-@login_required
-def update_image(request, image_id):
-    image = Image.objects.get(id=image_id)
-
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        category_id = request.POST.get('categories')
-        category = Category.objects.get(id=category_id)
-
-        image.title = title
-        if 'image_file' in request.FILES:
-            image.image_file = request.FILES['image_file']
-        image.categories.set([category])
-        image.save()
-
-        return redirect('admin_panel:view_images')
-    categories = Category.objects.all()
-
-    return render(request, 'admin_panel/update_image.html', {'image': image, 'categories': categories})
-@login_required
-def delete_image(request, image_id):
-    image = Image.objects.get(id=image_id)
-    image.delete()
-    return redirect('admin_panel:view_images')
 
 @login_required
 def update_category(request, category_id):
-    category = Category.objects.get(id=category_id)
-    
+    category = get_object_or_404(Category, id=category_id)
+
     if request.method == 'POST':
         category.name = request.POST.get('category_name', category.name)
         category.description = request.POST.get('description', category.description)  # Update description
         category.save()
-        return redirect('admin_panel:view_categories')  # Redirect to manage categories after update
+        return redirect('admin_panel:view_categories')
 
     return render(request, 'admin_panel/update_category.html', {'category': category})
 
 
 @login_required
 def delete_category(request, category_id):
-    category = Category.objects.get(id=category_id)
+    category = get_object_or_404(Category, id=category_id)
     category.delete()
     return redirect('admin_panel:view_categories')
 
 
 @login_required
 def view_images(request):
-    images=Image.objects.all()
+    images = Image.objects.all()
     return render(request, 'admin_panel/view_images.html', {'images': images})
+
 
 @login_required
 def view_categories(request):
-    categories=Category.objects.all()
+    categories = Category.objects.all()
     return render(request, 'admin_panel/view_categories.html', {'categories': categories})
-
 
 
 @login_required
@@ -183,16 +206,28 @@ def manage_videos(request):
     total_videos = Video.objects.count()
     return render(request, 'admin_panel/manage_videos.html', {'total_videos': total_videos})
 
+
 @login_required
 def add_video(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        video_file = request.FILES.get('video_file')
-        category_ids = request.POST.getlist('categories')
-        categories = Category.objects.filter(id__in=category_ids)
+        video_file = request.FILES['video_file']
+        category_id = request.POST.get('category')
 
-        video = Video.objects.create(title=title, video_file=video_file)
-        video.categories.set(categories)
+        # Check if a video with the same title already exists
+        if Video.objects.filter(title=title).exists():
+            error_message = "A video with this title already exists. Please choose a different title."
+            categories = Category.objects.all()  # Fetch categories to redisplay the form
+            return render(request, 'admin_panel/add_video.html', {
+                'error_message': error_message,
+                'title': title,
+                'categories': categories,
+                'category_id': category_id
+            })
+
+        # Proceed to save the new video
+        category = get_object_or_404(Category, id=category_id)
+        video = Video.objects.create(title=title, video_file=video_file, category=category)
         video.save()
 
         return redirect('admin_panel:view_videos')
@@ -200,7 +235,8 @@ def add_video(request):
     categories = Category.objects.all()
     return render(request, 'admin_panel/add_video.html', {'categories': categories})
 
-# Update Video
+
+
 @login_required
 def update_video(request, video_id):
     video = get_object_or_404(Video, id=video_id)
@@ -209,9 +245,10 @@ def update_video(request, video_id):
         video.title = request.POST.get('title', video.title)
         if 'video_file' in request.FILES:
             video.video_file = request.FILES['video_file']
-        category_ids = request.POST.getlist('categories')
-        categories = Category.objects.filter(id__in=category_ids)
-        video.categories.set(categories)
+        category_id = request.POST.get('category')
+        category = get_object_or_404(Category, id=category_id)
+
+        video.category = category  # Set the single category for the video
         video.save()
 
         return redirect('admin_panel:view_videos')
@@ -219,7 +256,7 @@ def update_video(request, video_id):
     categories = Category.objects.all()
     return render(request, 'admin_panel/update_video.html', {'video': video, 'categories': categories})
 
-# Delete Video
+
 @login_required
 def delete_video(request, video_id):
     video = get_object_or_404(Video, id=video_id)
@@ -227,7 +264,6 @@ def delete_video(request, video_id):
     return redirect('admin_panel:view_videos')
 
 
-# View Videos
 @login_required
 def view_videos(request):
     videos = Video.objects.all()

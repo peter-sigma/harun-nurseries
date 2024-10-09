@@ -25,9 +25,7 @@
                     <td><img src="{{ image.image_file.url }}" alt="{{ image.title }}" class="img-thumbnail admin-image"></td>
                     <td>{{ image.title }}</td>
                     <td>
-                        {% for category in image.categories.all %}
-                            <span class="badge bg-success">{{ category.name }}</span>
-                        {% endfor %}
+                        <span class="badge bg-success">{{ image.category.name }}</span>
                     </td>
                     <td>
                         <a href="{% url 'admin_panel:update_image' image.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>

@@ -22,9 +22,7 @@
                     <td><video width="200" controls><source src="{{ video.video_file.url }}" type="video/mp4"></video></td>
                     <td>{{ video.title }}</td>
                     <td>
-                        {% for category in video.categories.all %}
-                            <span class="badge bg-success" >{{ category.name }}</span>
-                        {% endfor %}
+                        <span class="badge bg-success" >{{ video.category.name }}</span>
                     </td>
                     <td>
                         <a href="{% url 'admin_panel:update_video' video.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Update</a>

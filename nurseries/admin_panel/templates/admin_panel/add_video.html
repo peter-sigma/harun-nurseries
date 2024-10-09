@@ -7,7 +7,10 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" required>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Enter video title" value="{{ title }}" required>
+            {% if error_message %}
+                <div class="alert alert-danger mt-2">{{ error_message }}</div>
+            {% endif %}
         </div>
         <div class="mb-3">
             <label for="video_file" class="form-label">Upload Video</label>
@@ -15,11 +18,16 @@
         </div>
         <div class="mb-3">
             <label for="categories" class="form-label">Categories</label>
-            <select class="form-control" id="categories" name="categories" required>
+            <select class="form-control" id="categories" name="category" required>
                 {% for category in categories %}
                 <option value="{{ category.id }}">{{ category.name }}</option>
                 {% endfor %}
             </select>
+        </div>
+         <!-- Description -->
+         <div class="form-group mb-3">
+            <label for="description" class="form-label">video</label>
+            <input type="text" name="description" id="description" class="form-control" placeholder="Enter video description" >
         </div>
         <button type="submit" class="btn btn-primary">Add Video</button>
     </form>

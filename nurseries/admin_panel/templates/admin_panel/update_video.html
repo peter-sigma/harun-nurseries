@@ -15,11 +15,16 @@
         </div>
         <div class="mb-3">
             <label for="categories" class="form-label">Categories</label>
-            <select name="categories" id="categories" class="form-control" required>
+            <select name="category" id="categories" class="form-control" required>
                 {% for category in categories %}
                 <option value="{{ category.id }}" {% if category in video.categories.all %}selected{% endif %}>{{ category.name }}</option>
                 {% endfor %}
             </select>
+        </div>
+        <!-- Description -->
+        <div class="form-group mb-3">
+            <label for="description" class="form-label">Video Description</label>
+            <input type="text" name="description" id="description" class="form-control" placeholder="Enter video description" >
         </div>
         <button type="submit" class="btn btn-warning">Update Video</button>
     </form>

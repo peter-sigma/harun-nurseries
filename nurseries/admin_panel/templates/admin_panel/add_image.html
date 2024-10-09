@@ -8,6 +8,7 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8 col-sm-12">
+        
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
@@ -15,6 +16,9 @@
                 <div class="form-group mb-3">
                     <label for="title" class="form-label">Image Title</label>
                     <input type="text" name="title" id="title" class="form-control" placeholder="Enter image title" required>
+                    {% if error_message %}
+                        <div class="alert alert-danger mt-2">{{ error_message }}</div>
+                    {% endif %}
                 </div>
 
                 <!-- Image Upload -->
@@ -25,13 +29,18 @@
 
                 <!-- Categories (Single dropdown select) -->
                 <div class="form-group mb-3">
-                    <label for="categories" class="form-label">Select Category</label>
-                    <select name="categories" id="categories" class="form-control" required>
+                    <label for="category" class="form-label">Select Category</label>  <!-- Use 'category' as the name -->
+                    <select name="category" id="categories" class="form-control" required>  <!-- Ensure the name is 'category' -->
                         <option value="">-- Select a Category --</option>
                         {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            <option value="{{ category.id }}">{{ category.name }}</option>  <!-- Use 'category.id' as the value -->
                         {% endfor %}
                     </select>
+                </div>
+                <!-- Description -->
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label">Image Description</label>
+                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter image description" >
                 </div>
 
                 <!-- Submit Button -->

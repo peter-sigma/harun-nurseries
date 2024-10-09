@@ -13,8 +13,10 @@
                 
                 <!-- Category Name -->
                 <div class="form-group mb-3">
-                    <label for="category_name" class="form-label">Category Name</label>
-                    <input type="text" name="category_name" id="category_name" class="form-control" placeholder="Enter category name" required>
+                    <input type="text" name="category_name" id="category_name" class="form-control" placeholder="Enter category name" value="{{ category_name }}" required>
+                    {% if error_message %}
+                        <div class="alert alert-danger mt-2">{{ error_message }}</div>
+                    {% endif %}
                 </div>
 
                 <!-- Description -->
