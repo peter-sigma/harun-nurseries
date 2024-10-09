@@ -9,12 +9,12 @@ def image_list(request, category_id=None):
     categories = Category.objects.all()
     images = Image.objects.all()
     if category_id:
-        images = images.filter(categories__id=category_id)
+        images = images.filter(category__id=category_id)
     return render(request, 'core/image_list.html', {'images': images, 'categories': categories})
 
 def video_list(request, category_id=None):
     categories = Category.objects.all()
     videos = Video.objects.all()
     if category_id:
-        videos = videos.filter(categories__id=category_id)
+        videos = videos.filter(category__id=category_id)
     return render(request, 'core/video_list.html', {'videos': videos, 'categories': categories})

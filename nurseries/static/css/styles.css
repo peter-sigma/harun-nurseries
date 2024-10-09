@@ -74,13 +74,6 @@ body {
     width: 100%;
 }
 
-/* footer {
-    background-color: #5A3E36;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    width: 100%;
-} */
 footer {
     background-color: #2d2d2d;
     padding: 20px 0;
@@ -170,4 +163,25 @@ footer .nav-link.active {
 .custom-green {
     background-color: #28a745; /* Custom green color */
     color: white;
+}
+
+
+.sticky-categories {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: white; /* Ensures it remains visible against any background */
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .list-group-horizontal {
+        flex-wrap: nowrap; /* Prevent wrapping on small screens */
+        overflow-x: auto;  /* Enable horizontal scrolling */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+    }
+    
+    .list-group-item {
+        min-width: 120px; /* Ensure the category items are wide enough for scrolling */
+    }
 }
